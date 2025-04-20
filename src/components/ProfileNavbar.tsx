@@ -22,30 +22,39 @@ const ProfileNavbar = () => {
           const user = JSON.parse(userString);
           setUserName(user?.fullName || "");
           setUserEmail(user?.email || "");
+          getCartCount(user?.email); // ← get cart count right away
         }
       } catch (error) {
         console.error("Error parsing user from localStorage", error);
       }
     };
-
-    const getCartFromLocalStorage = () => {
+  
+    const getCartCount = (email: string) => {
       try {
-        const cartString = localStorage.getItem("profileCart");
+        if (!email) return;
+        const cartKey = `cart_${email}`;
+        const cartString = localStorage.getItem(cartKey);
         const cart = cartString ? JSON.parse(cartString) : [];
-        setProfileCartCount(cart.length);
+        setProfileCartCount(cart.reduce((acc: number, item: any) => acc + item.quantity, 0)); // Show total quantity
       } catch (err) {
-        console.error("Error reading profileCart", err);
+        console.error("Error reading cart", err);
       }
     };
-
+  
     getUser();
-    getCartFromLocalStorage();
-
-    window.addEventListener("cartUpdated", getCartFromLocalStorage);
+  
+    const handleCartUpdate = () => {
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      if (user?.email) getCartCount(user.email);
+    };
+  
+    window.addEventListener("cartUpdated", handleCartUpdate);
     return () => {
-      window.removeEventListener("cartUpdated", getCartFromLocalStorage);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
     };
   }, []);
+  
 
   const handleLogout = async () => {
     try {

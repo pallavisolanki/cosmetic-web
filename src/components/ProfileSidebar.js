@@ -1,10 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { IoClose } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
-import Link from "next/link";
 
 export default function ProfileSidebar({ isOpen, onClose, user, handleLogout }) {
   const sidebarRef = useRef(null);
+  const [cartCount, setCartCount] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -24,6 +26,47 @@ export default function ProfileSidebar({ isOpen, onClose, user, handleLogout }) 
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    const getCartCount = (email) => {
+      try {
+        if (!email) return;
+        const cartKey = `cart_${email}`;
+        const cartString = localStorage.getItem(cartKey);
+        const cart = cartString ? JSON.parse(cartString) : [];
+        setCartCount(cart.reduce((acc, item) => acc + item.quantity, 0));
+      } catch (err) {
+        console.error("Error reading cart", err);
+      }
+    };
+
+    if (user?.email) {
+      getCartCount(user.email);
+    }
+
+    const handleCartUpdate = () => {
+      if (user?.email) {
+        getCartCount(user.email);
+      }
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, [user]);
+
+  const handleCartClick = () => {
+    onClose(); // optional: close sidebar before navigating
+    router.push("/cart");
+  };
+
+  // Extract initials from email (before the '@' symbol)
+  const getEmailInitials = (email) => {
+    if (!email) return "U";
+    const namePart = email.split("@")[0]; // Get part before '@'
+    return namePart.charAt(0).toUpperCase(); // Get the first letter of the part before '@'
+  };
 
   return (
     <div
@@ -50,17 +93,24 @@ export default function ProfileSidebar({ isOpen, onClose, user, handleLogout }) 
 
           <div className="flex flex-col items-center mt-6">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-red-400 text-white flex items-center justify-center text-2xl font-semibold">
-              {user?.fullName?.charAt(0) || "U"}
+              {getEmailInitials(user?.email)}
             </div>
-            <h3 className="mt-4 text-lg font-semibold">{user?.fullName}</h3>
-            <p className="text-sm text-gray-600">{user?.email || "Not Available"}</p>
+            <h3 className="mt-4 text-lg font-semibold">{user?.email}</h3>
           </div>
 
           {/* Cart icon for mobile/tablet view */}
-          <div className="mt-6 md:hidden flex justify-center">
-            <Link href="/cart" className="text-pink-600 hover:text-pink-700 text-xl">
+          <div
+            className="mt-6 md:hidden flex justify-center relative cursor-pointer"
+            onClick={handleCartClick}
+          >
+            <div className="text-pink-600 hover:text-pink-700 text-xl relative">
               <FaShoppingCart size={26} />
-            </Link>
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-3 bg-pink-500 text-white rounded-full text-xs px-1.5">
+                  {cartCount}
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="mt-auto">

@@ -1,6 +1,7 @@
 // pages/cart.tsx
 "use client";
 
+import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProfileNavbar from "../src/components/ProfileNavbar";
@@ -31,8 +32,10 @@ const CartPage = () => {
     const cartKey = getCartKey();
     if (cartKey) {
       localStorage.setItem(cartKey, JSON.stringify(updatedCart));
+      window.dispatchEvent(new Event("cartUpdated")); // ✅ Still fires
     }
   };
+  
 
   useEffect(() => {
     const loadCartFromStorage = () => {
@@ -83,14 +86,22 @@ const CartPage = () => {
     <>
       <ProfileNavbar />
       <div className="min-h-screen bg-gray-100 p-6">
-        <h1 className="text-3xl font-bold mb-6">Shopping Bag</h1>
+        <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
+          <ShoppingBag className="w-8 h-8 text-pink-500" />
+          Shopping Bag
+        </h1>
         {cartItems.length === 0 ? (
-          <div className="text-center text-gray-600">
-            <p>Your cart is empty 🛒</p>
-            <Link href="/" className="text-pink-600 font-medium hover:underline">
-              Continue shopping
+          <div className="flex flex-col items-center justify-center text-center py-24 text-gray-600 bg-white rounded-2xl shadow-md">
+            <div className="text-6xl mb-4">🛒</div>
+            <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
+            <p className="mb-6 text-gray-500">Looks like you haven't added anything to your bag yet.</p>
+            <Link
+              href="/"
+              className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-medium transition-all"
+            >
+              Continue Shopping
             </Link>
-          </div>
+          </div>        
         ) : (
           <div className="grid md:grid-cols-3 gap-6">
             {/* LEFT: Product List */}
