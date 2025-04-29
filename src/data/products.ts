@@ -4,7 +4,7 @@ import { Product } from "../types";
 
 export const products: Product[] = [
   {
-    id: 1,
+    id: "1",
     name: "Hot Red Lipstick",
     price: 499,
     image: "/lipstick.jpeg",
@@ -12,7 +12,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 2,
+    id: "2",
     name: "Foundation",
     price: 899,
     image: "/foundation.webp",
@@ -20,7 +20,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 3,
+    id : "3",
     name: "Eyeliner",
     price: 545,
     image: "/eyeliner.jpeg",
@@ -28,7 +28,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 4,
+    id :"4",
     name: "Blush",
     price: 735,
     image: "/blush.jpeg",
@@ -36,7 +36,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 5,
+    id :"5",
     name: "Gift Box 1",
     price: 1199,
     image: "/gift1.jpeg",
@@ -44,7 +44,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 6,
+    id :"6",
     name: "Nail Polish",
     price: 299,
     image: "/nails1.jpeg",
@@ -52,7 +52,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 7,
+    id :"7",
     name: "Brush Set",
     price: 899,
     image: "/brush1.jpeg",
@@ -60,7 +60,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 8,
+    id :"8",
     name: "Red Lipstick",
     price: 498,
     image: "/lipstick2.jpeg",
@@ -68,7 +68,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 9,
+    id :"9",
     name: "Mascara",
     price: 545,
     image: "/eyes2.jpeg",
@@ -76,7 +76,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 10,
+    id :"10",
     name: "Face Powder",
     price: 735,
     image: "/face2.jpeg",
@@ -84,7 +84,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 11,
+    id :"11",
     name: "Nails cream",
     price: 499,
     image: "/nails2.jpeg",
@@ -92,7 +92,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 12,
+    id :"12",
     name: "Gift Hamper",
     price: 1299,
     image: "/gift2.jpeg",
@@ -100,7 +100,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 13,
+    id :"13",
     name: "Deluxe Brush",
     price: 999,
     image: "/brush2.jpeg",
@@ -108,7 +108,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 14,
+    id :"14",
     name: "Soft Eye Brush",
     price: 599,
     image: "/brush3.jpeg",
@@ -116,7 +116,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 15,
+    id :"15",
     name: "Contour Brush Kit",
     price: 499,
     image: "/brush4.jpeg",
@@ -124,7 +124,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 16,
+    id :"16",
     name: "Smokey Eyes Palette",
     price: 699,
     image: "/eyes3.jpeg",
@@ -132,7 +132,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 17,
+    id :"17",
     name: "Shimmer Eye Liner",
     price: 649,
     image: "/eyes4.jpeg",
@@ -140,7 +140,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 18,
+    id :"18",
     name: "Brighten Moisturizer",
     price: 799,
     image: "/face3.jpg",
@@ -148,7 +148,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 19,
+    id :"19",
     name: "Glow Face Cream",
     price: 850,
     image: "/face4.jpeg",
@@ -156,7 +156,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 20,
+    id :"20",
     name: "Gift Set Deluxe",
     price: 1399,
     image: "/gift3.jpeg",
@@ -164,7 +164,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 21,
+    id :"21",
     name: "Luxury Gift Pack",
     price: 1499,
     image: "/gift4.jpeg",
@@ -172,7 +172,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 22,
+    id :"22",
     name: "Velvet Lipstick",
     price: 520,
     image: "/lipstick3.webp",
@@ -180,7 +180,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 23,
+    id :"23",
     name: "Matte Lipstick AV",
     price: 545,
     image: "/lipstick4.avif",
@@ -188,7 +188,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 24,
+    id :"24",
     name: "Sparkle Nails",
     price: 320,
     image: "/nails3.jpeg",
@@ -196,7 +196,7 @@ export const products: Product[] = [
     quantity: 1,
   },
   {
-    id: 25,
+    id :"25",
     name: "Glossy Nails",
     price: 340,
     image: "/nails4.jpeg",

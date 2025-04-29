@@ -51,7 +51,7 @@ const Navbar = ({ products = [] }) => { // Default to empty array if products is
         />
       </Link>
 
-      {/* Desktop Navigation Links */}
+      {/* Desktop Navigation Links 
       <div className="hidden md:flex space-x-6">
         {categories.map((category) => (
           <Link
@@ -62,7 +62,7 @@ const Navbar = ({ products = [] }) => { // Default to empty array if products is
             {category}
           </Link>
         ))}
-      </div>
+      </div>*/}
 
       {/* Search, Cart, and Authentication Buttons */}
       <div className="hidden md:flex items-center space-x-4">

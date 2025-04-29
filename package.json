@@ -18,9 +18,10 @@
     "jsonwebtoken": "^9.0.2",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.484.0",
-    "mongoose": "^8.13.0",
+    "mongoose": "^8.13.2",
     "next": "15.2.4",
     "nookies": "^2.5.2",
+    "razorpay": "^2.9.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
@@ -29,7 +30,8 @@
     "react-toastify": "^11.0.5",
     "recoil": "^0.7.7",
     "redux-persist": "^6.0.0",
-    "sass": "^1.86.1"
+    "sass": "^1.86.1",
+    "shortid": "^2.2.17"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -39,10 +41,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/shortid": "^2.2.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "postcss": "^8.5.3",
+    "source-map-loader": "^5.0.0",
     "tailwindcss": "^4.0.17",
     "typescript": "^5"
   }

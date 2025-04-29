@@ -1,3 +1,4 @@
+//src\components\product\ProductCard.tsx
 "use client";
 
 import Image from "next/image";
@@ -6,7 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { addToCart, replaceCart } from "../../store/cartSlice";
+import { replaceCart } from "../../store/cartSlice";
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
@@ -33,23 +34,20 @@ export default function ProductCard({ product }: { product: Product }) {
       let updatedCart;
 
       if (existingItemIndex !== -1) {
-        // ✅ Product exists → increase quantity
         existingCart[existingItemIndex].quantity += 1;
         updatedCart = [...existingCart];
         toast(`${product.name} quantity increased`, { icon: "➕" });
       } else {
-        // ✅ Product doesn't exist → add new item
         const cartItem = { ...product, quantity: 1 };
         updatedCart = [...existingCart, cartItem];
         toast.success(`${product.name} added to cart`);
       }
-
-      // ✅ Update localStorage & Redux
       localStorage.setItem(cartKey, JSON.stringify(updatedCart));
       localStorage.setItem("profileCart", JSON.stringify(updatedCart));
       dispatch(replaceCart(updatedCart));
       window.dispatchEvent(new Event("cartUpdated"));
     } catch (err) {
+      toast.error("Please login to add items to your cart.");
       router.push("/login");
     }
   };

@@ -3,7 +3,13 @@
 import jwt from 'jsonwebtoken';
 import { NextApiRequest } from 'next';
 
-export function verifyTokenFromRequest(req: NextApiRequest) {
+// Define the interface for the decoded token
+export interface DecodedToken {
+  userId: string;
+  // Add other fields if necessary (e.g., email, role, etc.)
+}
+
+export function verifyTokenFromRequest(req: NextApiRequest): DecodedToken | null {
   const cookieHeader = req.headers.cookie;
 
   if (!cookieHeader) return null;
@@ -14,7 +20,8 @@ export function verifyTokenFromRequest(req: NextApiRequest) {
   const token = tokenMatch[1];
 
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!);
+    // Ensure that the token is verified and cast to the correct type
+    return jwt.verify(token, process.env.JWT_SECRET!) as DecodedToken;
   } catch (err) {
     console.error("JWT verification failed:", err);
     return null;

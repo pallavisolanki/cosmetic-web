@@ -1,8 +1,9 @@
-//models/User.ts s
+// models/User.ts
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
+  fullName: string; // Add fullName to the interface
   email: string;
   password: string;
   comparePassword(password: string): Promise<boolean>;
@@ -10,6 +11,7 @@ export interface IUser extends Document {
 
 const userSchema: Schema<IUser> = new Schema(
   {
+    fullName: { type: String, required: true }, // Add fullName field
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
   },

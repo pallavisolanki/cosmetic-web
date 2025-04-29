@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */ 
 const nextConfig = {
   reactStrictMode: true,
 
@@ -12,12 +12,16 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: isDev
-              ? "script-src 'self' 'unsafe-eval' 'unsafe-inline';"
-              : "script-src 'self';", // stricter in production
+              ? "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://checkout.razorpay.com;"
+              : "script-src 'self' https://checkout.razorpay.com;", // allow Razorpay in prod
           },
         ],
       },
     ];
+  },
+
+  webpack(config: any) {
+    return config;
   },
 };
 

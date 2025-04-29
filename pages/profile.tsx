@@ -4,17 +4,18 @@
 import { useEffect, useState, useRef } from "react";
 import ProfileNavbar from "../src/components/ProfileNavbar";
 import Footer from "../src/components/layout/footer";
-import '../src/styles/globals.css';
+import "../src/styles/globals.css";
 import HeroSection from "../src/components/HeroSection";
 import NewsletterSection from "../src/components/NewsletterSection";
 import ProductSection from "../src/components/product/ProductSection";
-import { products } from '../src/data/products';
+import { products } from "../src/data/products";
 import { useAuthRedirect } from "../src/hooks/useAuthRedirect";
 import { useDispatch } from "react-redux";
 import { replaceCart } from "../src/store/cartSlice";
 
 export default function ProfilePage() {
   const [userName, setUserName] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products); // 🔍 Filtered product state
   const fetchedRef = useRef(false); // 🧠 Prevent double fetch
   const dispatch = useDispatch();
 
@@ -53,15 +54,23 @@ export default function ProfilePage() {
     fetchUser();
   }, [dispatch]);
 
+  // 🔍 Handle product search
+  const handleSearch = (searchTerm: string) => {
+    const filtered = products.filter(product =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
   return (
     <>
-      <ProfileNavbar />
+      <ProfileNavbar onSearch={handleSearch} />
 
       <HeroSection />
 
       <section>
         <h2 className="text-3xl font-bold text-center my-8">Featured Cosmetics</h2>
-        <ProductSection products={products} />
+        <ProductSection products={filteredProducts} />
       </section>
 
       <NewsletterSection />

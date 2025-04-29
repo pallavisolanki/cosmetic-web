@@ -1,3 +1,4 @@
+// pages/api/auth/login.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
@@ -47,11 +48,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       token,
       message: 'Login successful',
       user: {
-        fullName: user.fullName,
+        fullName: user.fullName,  // Include fullName in the response
         email: user.email,
       },
     });
-
   } catch (error) {
     console.error('Login Error:', error);
     return res.status(500).json({ message: 'Internal server error' });

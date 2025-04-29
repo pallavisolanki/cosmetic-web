@@ -1,7 +1,8 @@
+//pages\login.tsx
 "use client";
 
 import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuthRedirect } from "../src/hooks/useAuthRedirect";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -13,6 +14,7 @@ import { replaceCart } from "../src/store/cartSlice";
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [fullName, setFullName] = useState(''); // Add state for fullName
   const dispatch = useDispatch();
 
   useAuthRedirect(false);
@@ -24,8 +26,8 @@ export default function LoginPage() {
     const email = formData.get('email');
     const password = formData.get('password');
 
-    if (!email || !password) {
-      alert('Please provide email and password');
+    if (!fullName || !email || !password) {
+      alert('Please provide all fields (full name, email, and password)');
       return;
     }
 
@@ -33,7 +35,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ fullName, email, password }), // Include fullName
       });
 
       const data = await res.json();
@@ -69,6 +71,19 @@ export default function LoginPage() {
         <div className="bg-white p-6 rounded shadow-md w-96">
           <h2 className="text-xl font-bold mb-4 text-center">Log In</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="fullName" className="block text-gray-700">Full Name</label>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                placeholder="John Doe"
+                value={fullName} // Bind value to the state
+                onChange={(e) => setFullName(e.target.value)} // Handle change for fullName
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
             <div>
               <label htmlFor="email" className="block text-gray-700">Email</label>
               <input

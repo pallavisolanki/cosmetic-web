@@ -8,12 +8,12 @@ import { useAuthRedirect } from "../src/hooks/useAuthRedirect";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Navbar from "../src/components/layout/navbar";
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';  // Import useDispatch for Redux
-import { setUser } from '../src/store/userSlice';  // Action to store user info in Redux (create this in your Redux setup)
+import { useDispatch } from 'react-redux';
+import { setUser } from '../src/store/userSlice';
 
 export default function SignupPage() {
   const router = useRouter();
-  const dispatch = useDispatch();  // Dispatch for updating Redux state
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -52,11 +52,7 @@ export default function SignupPage() {
 
       if (response.ok) {
         alert(data.message);
-
-        // Assuming the response contains user info or a token
-        // Update Redux state with the user info after successful signup
-        dispatch(setUser(data.user));  // Replace with correct field from response
-
+        dispatch(setUser(data.user));
         router.push("/login");
       } else {
         alert(data.message || "Signup failed");

@@ -1,3 +1,4 @@
+//src\components\product\ProductSection.tsx
 "use client";
 
 import Categories from "../Categories";
@@ -17,7 +18,7 @@ export default function ProductSection({ products }: { products: Product[] }) {
         );
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 px-4 py-6 max-w-7xl mx-auto">
+    <div id="product-section" className="flex flex-col md:flex-row gap-6 px-4 py-6 max-w-7xl mx-auto">
       {/* Left Side: Products */}
       <div className="order-1 flex-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredProducts.length > 0 ? (

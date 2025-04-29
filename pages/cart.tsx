@@ -1,7 +1,7 @@
 // pages/cart.tsx
 "use client";
 
-import { ShoppingBag } from "lucide-react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProfileNavbar from "../src/components/ProfileNavbar";
@@ -18,6 +18,7 @@ interface CartItem {
 }
 
 const CartPage = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const [total, setTotal] = useState(0);
@@ -32,7 +33,7 @@ const CartPage = () => {
     const cartKey = getCartKey();
     if (cartKey) {
       localStorage.setItem(cartKey, JSON.stringify(updatedCart));
-      window.dispatchEvent(new Event("cartUpdated")); // ✅ Still fires
+      window.dispatchEvent(new Event("cartUpdated")); 
     }
   };
   
@@ -86,8 +87,7 @@ const CartPage = () => {
     <>
       <ProfileNavbar />
       <div className="min-h-screen bg-gray-100 p-6">
-        <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
-          <ShoppingBag className="w-8 h-8 text-pink-500" />
+        <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2"> 
           Shopping Bag
         </h1>
         {cartItems.length === 0 ? (
@@ -186,7 +186,10 @@ const CartPage = () => {
                   <span>Cart Total</span>
                   <span>₹{Math.max(0, total - 4).toFixed(2)}</span>
                 </div>
-                <button className="bg-black text-white w-full py-2 mt-3 rounded">
+                <button
+                  onClick={() => router.push("/checkout")}
+                  className="bg-black text-white w-full py-2 mt-3 rounded hover:bg-pink-600"
+                >
                   Checkout
                 </button>
               </div>

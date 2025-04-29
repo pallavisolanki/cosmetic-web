@@ -42,7 +42,8 @@
     ".next/types/**/*.ts",
     "src/components/layout/navbar.js",
     "src/components/layout/footer.js"
-  ],
+, "src/components/ProfileSidebar.js" ,
+"src", "global.d.ts" ],
   "exclude": [
     "node_modules"
   ]

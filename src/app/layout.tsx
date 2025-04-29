@@ -1,4 +1,4 @@
-// src/app/layout.tsx or RootLayout.tsx
+// src/app/layout.tsx 
 "use client";
 
 import { Provider } from "react-redux";  // Import the Provider from react-redux
