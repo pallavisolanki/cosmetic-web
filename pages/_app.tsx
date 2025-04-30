@@ -41,27 +41,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.asPath]);
 
   const guestNavbarRoutes = ["/", "/login", "/signup"];
+  const hideNavbarRoutes = ["/order-success"];
+
   const shouldShowGuestNavbar = guestNavbarRoutes.includes(router.pathname);
+  const shouldHideNavbar = hideNavbarRoutes.includes(router.pathname);
 
   return (
-    <>
-      {/* This matches the body of your RootLayout */}
-      <Provider store={store}>
-        <AppInitializer />
-        <Toaster position="top-right" reverseOrder={false} />
-        {shouldShowGuestNavbar || !isLoggedIn ? (
+    <Provider store={store}>
+      <AppInitializer />
+      <Toaster position="top-right" reverseOrder={false} />
+      {!shouldHideNavbar && (
+        shouldShowGuestNavbar || !isLoggedIn ? (
           <Navbar />
         ) : (
           <ProfileNavbar onSearch={() => {}} />
-        )}
-        <Component {...pageProps} />
-        <Footer />
-      </Provider>
-    </>
+        )
+      )}
+      <Component {...pageProps} />
+      <Footer />
+    </Provider>
   );
 }
 
-
 export default MyApp;
-
-

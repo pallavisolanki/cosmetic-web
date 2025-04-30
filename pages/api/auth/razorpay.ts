@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { amount } = req.body;
+    console.log("Received amount:", amount);
 
     // Validate the amount parameter
     if (!amount || amount <= 0) {
