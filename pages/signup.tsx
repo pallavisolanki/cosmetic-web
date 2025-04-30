@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import '../src/styles/globals.css';
 import { useAuthRedirect } from "../src/hooks/useAuthRedirect";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Navbar from "../src/components/layout/navbar";
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../src/store/userSlice';
@@ -67,7 +66,6 @@ export default function SignupPage() {
 
   return (
     <>
-      <Navbar />
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
           <h2 className="text-xl font-bold mb-4 text-center">Create an Account</h2>

@@ -1,14 +1,19 @@
+//src\components\layout\navbar.js
 "use client";
 
 import Link from "next/link";
-import { useState,useEffect  } from "react";
+import { useState,useEffect,useRef  } from "react";
 import { useRouter } from "next/navigation";
 import { FaSearch, FaShoppingCart} from "react-icons/fa";
 import "../../styles/globals.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchTerm } from '@/store/searchSlice';
 
-const Navbar = ({ products = [] }) => { // Default to empty array if products is undefined
+const Navbar = ({ products = [] }) => { 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const searchTerm = useSelector((state) => state.search.term);
+  const dispatch = useDispatch();
+  const searchInputRef = useRef(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
@@ -24,8 +29,13 @@ const Navbar = ({ products = [] }) => { // Default to empty array if products is
   );
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+    dispatch(setSearchTerm(event.target.value));
   };
+ 
+  const resetSearchTerm = () => {
+    dispatch(setSearchTerm(''));
+  };
+
   // Check if token exists on client side
   useEffect(() => {
     const token = document.cookie.split("; ").find((row) => row.startsWith("token="));
@@ -39,6 +49,19 @@ const Navbar = ({ products = [] }) => { // Default to empty array if products is
       router.push("/login");
     }
   };
+
+  // Clear search bar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+        resetSearchTerm();
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-white shadow-md px-3 py-1 flex justify-between items-center sticky top-0 z-10">
@@ -67,7 +90,7 @@ const Navbar = ({ products = [] }) => { // Default to empty array if products is
       {/* Search, Cart, and Authentication Buttons */}
       <div className="hidden md:flex items-center space-x-4">
         {/* Search Input */}
-        <div className="relative">
+        <div className="relative" ref={searchInputRef}>
           <input
             type="text"
             value={searchTerm}

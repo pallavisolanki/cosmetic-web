@@ -6,16 +6,22 @@ import { useState, useEffect, useRef } from "react";
 import { FaSearch, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import ProfileSidebar from "./ProfileSidebar";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchTerm } from '@/store/searchSlice';
+import { RootState } from '../store/store'; 
+
 
 const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
+  const searchTerm = useSelector((state: RootState) => state.search.term);
+  const dispatch = useDispatch();
   const [fullName, setFullName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
   const [profileCartCount, setProfileCartCount] = useState(0);
   const [showMakeupDropdown, setShowMakeupDropdown] = useState(false);
 
+  const searchRef = useRef<HTMLDivElement>(null);
   const makeupButtonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -73,9 +79,9 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-    onSearch(value);
+    const term = event.target.value;
+    dispatch(setSearchTerm(term));
+    onSearch(term);
   };
 
   const toggleDropdown = () => {
@@ -99,6 +105,24 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutsideSearch = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        dispatch(setSearchTerm(""));
+        onSearch("");
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutsideSearch);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideSearch);
+    };
+  }, [dispatch, onSearch]);
+  
 
   const user = { fullName, email: userEmail };
 
@@ -150,7 +174,7 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
         </div>*/}
 
         <div className="hidden md:flex items-center space-x-4">
-          <div className="relative">
+          <div className="relative" ref={searchRef}>
             <input
               type="text"
               value={searchTerm}
@@ -185,7 +209,7 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-2 ml-auto px-4 mt-4 w-full">
-          <div className="relative flex-1">
+          <div className="relative flex-1" ref={searchRef}>
             <input
               type="text"
               value={searchTerm}

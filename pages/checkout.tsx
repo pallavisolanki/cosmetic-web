@@ -7,7 +7,6 @@ import { RootState } from "@/store/store";
 import { replaceCart } from "@/store/cartSlice";
 import { saveOrderToRedux } from "@/store/orderSlice";
 import { useRouter } from "next/navigation";
-import ProfileNavbar from "../src/components/ProfileNavbar";
 import Image from "next/image";
 
 const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
@@ -178,7 +177,6 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <ProfileNavbar onSearch={() => {}} />
       <div className="p-6 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
 

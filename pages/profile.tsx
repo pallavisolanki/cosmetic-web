@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import ProfileNavbar from "../src/components/ProfileNavbar";
 import Footer from "../src/components/layout/footer";
 import "../src/styles/globals.css";
 import HeroSection from "../src/components/HeroSection";
@@ -64,8 +63,6 @@ export default function ProfilePage() {
 
   return (
     <>
-      <ProfileNavbar onSearch={handleSearch} />
-
       <HeroSection />
 
       <section>

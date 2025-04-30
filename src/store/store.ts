@@ -2,7 +2,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import userReducer from "./userSlice";
-import orderReducer from "./orderSlice";  // Import the orderSlice
+import orderReducer from "./orderSlice";  
+import searchReducer from './searchSlice';
 
 const getCartKey = () => {
   try {
@@ -39,8 +40,9 @@ const saveCartToLocalStorage = (cartItems: any[]) => {
 const store = configureStore({
   reducer: {
     cart: cartReducer,
-    user: userReducer, // Add user reducer here
-    order: orderReducer, // Add order reducer here
+    user: userReducer, 
+    order: orderReducer, 
+    search: searchReducer,
   },
 });
 

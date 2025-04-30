@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useAuthRedirect } from "../src/hooks/useAuthRedirect";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import '../src/styles/globals.css';
-import Navbar from "../src/components/layout/navbar";
 import { useDispatch } from "react-redux";
 import { replaceCart } from "../src/store/cartSlice";
 
@@ -64,7 +63,6 @@ export default function LoginPage() {
 
   return (
     <>
-      <Navbar />
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="bg-white p-6 rounded shadow-md w-96">
           <h2 className="text-xl font-bold mb-4 text-center">Log In</h2>

@@ -4,7 +4,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ProfileNavbar from "../src/components/ProfileNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../src/store/store";
 import { replaceCart } from "../src/store/cartSlice";
@@ -85,7 +84,6 @@ const CartPage = () => {
 
   return (
     <>
-      <ProfileNavbar onSearch={() => {}} />
       <div className="min-h-screen bg-gray-100 p-6">
         <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
           Shopping Bag

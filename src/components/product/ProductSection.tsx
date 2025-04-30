@@ -6,16 +6,22 @@ import ProductCard from "./ProductCard";
 import { Product } from "../../types";
 import "../../styles/globals.css";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export default function ProductSection({ products }: { products: Product[] }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const searchTerm = useSelector((state: RootState) => state.search.term);
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products.filter(
-          (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
-        );
+  // Filter products based on selected category and search term
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory =
+      selectedCategory === "All" || product.category.toLowerCase() === selectedCategory.toLowerCase();
+    const matchesSearchTerm =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === "";
+
+    return matchesCategory && matchesSearchTerm;
+  });
 
   return (
     <div id="product-section" className="flex flex-col md:flex-row gap-6 px-4 py-6 max-w-7xl mx-auto">
