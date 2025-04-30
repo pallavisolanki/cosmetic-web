@@ -10,36 +10,6 @@ import { useRouter } from "next/navigation";
 import ProfileNavbar from "../src/components/ProfileNavbar";
 import Image from "next/image";
 
-// ✅ Razorpay types
-interface RazorpayResponse {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-}
-
-interface RazorpayOptions {
-  key: string;
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  order_id: string;
-  handler: (response: RazorpayResponse) => void;
-  theme: {
-    color: string;
-  };
-}
-
-interface RazorpayInstance {
-  open(): void;
-}
-
-declare global {
-  interface Window {
-    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
-  }
-}
-
 const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
 
 const CheckoutPage = () => {
@@ -118,8 +88,7 @@ const CheckoutPage = () => {
       if (window.Razorpay) {
         setIsRazorpayLoaded(true);
       } else {
-        existingScript.onload = () => setIsRazorpayLoaded(true);
-        existingScript.onerror = () => retryLoadScript();
+        setIsRazorpayLoaded(true); // If already loaded, skip the loading.
       }
     }
   }, []);
@@ -180,7 +149,9 @@ const CheckoutPage = () => {
               cartItems,
             }));
 
-            dispatch(replaceCart([]));
+            dispatch(replaceCart([])); // Clear the cart in Redux
+
+            // Clear cart from localStorage as well
             const user = JSON.parse(localStorage.getItem("user") || "null");
             if (user?.email) {
               localStorage.removeItem(`cart_${user.email}`);
@@ -207,7 +178,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <ProfileNavbar />
+      <ProfileNavbar onSearch={() => {}} />
       <div className="p-6 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
 

@@ -1,3 +1,4 @@
+//pages\api\auth\razorpay.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import Razorpay from "razorpay";
 
@@ -22,24 +23,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { amount } = req.body;
 
+    // Validate the amount parameter
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: "Invalid amount." });
     }
 
+    // Razorpay expects the amount in paise (1 INR = 100 paise)
+    const amountInPaise = amount * 100;
+
     const options = {
-      amount: amount * 100, // Convert to paise (Razorpay accepts amounts in paise)
+      amount: amountInPaise, // Convert to paise
       currency: "INR",
       receipt: `receipt_order_${Math.random().toString(36).slice(2)}`,
     };
 
+    // Attempt to create a Razorpay order
     const order = await razorpay.orders.create(options);
 
     return res.status(200).json(order);
   } catch (error) {
     console.error("Error creating Razorpay order:", error);
+
+    // Log the error more clearly
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error occurred";
+
+    // Return a more descriptive error message
     return res.status(500).json({
       message: "Failed to create Razorpay order",
-      error: error instanceof Error ? error.message : error,
+      error: errorMessage,
+      details: error instanceof Error ? error.stack : undefined, // Optional for debugging
     });
   }
 }

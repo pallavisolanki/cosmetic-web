@@ -85,7 +85,7 @@ const CartPage = () => {
 
   return (
     <>
-      <ProfileNavbar />
+      <ProfileNavbar onSearch={() => {}} />
       <div className="min-h-screen bg-gray-100 p-6">
         <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
           Shopping Bag
@@ -155,7 +155,7 @@ const CartPage = () => {
 
             {/* RIGHT: Summary */}
             <div className="bg-white rounded-2xl shadow-md p-6 h-fit space-y-6">
-              <div>
+              {/*<div>
                 <h2 className="text-lg font-semibold mb-2">Calculated Shipping</h2>
                 <div className="flex flex-col gap-2">
                   <select className="border px-2 py-1 rounded">
@@ -174,7 +174,7 @@ const CartPage = () => {
                   </div>
                   <button className="bg-black text-white py-2 rounded">Update</button>
                 </div>
-              </div>
+              </div>*/}
 
               <div className="bg-orange-50 rounded-xl p-4 space-y-2">
                 <h3 className="font-bold text-lg">Cart Total</h3>
