@@ -1,3 +1,4 @@
+//pages\_app.tsx
 import { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
@@ -6,6 +7,8 @@ import "../src/styles/globals.css";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { replaceCart } from "../src/store/cartSlice";
+import Navbar from "../src/components/layout/navbar";
+import Footer from "../src/components/layout/footer";
 
 function AppInitializer() {
   const dispatch = useDispatch();
@@ -28,9 +31,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <AppInitializer />
       <Toaster position="top-right" reverseOrder={false} />
+      <Navbar />
       <Component {...pageProps} />
+      <Footer />
     </Provider>
   );
 }
 
 export default MyApp;
+
