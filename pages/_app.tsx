@@ -50,15 +50,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <AppInitializer />
       <Toaster position="top-right" reverseOrder={false} />
-      {!shouldHideNavbar && (
-        shouldShowGuestNavbar || !isLoggedIn ? (
-          <Navbar />
-        ) : (
-          <ProfileNavbar onSearch={() => {}} />
-        )
-      )}
-      <Component {...pageProps} />
-      <Footer />
+      <div className="min-h-screen flex flex-col">
+        {!shouldHideNavbar && (
+          shouldShowGuestNavbar || !isLoggedIn ? (
+            <Navbar />
+          ) : (
+            <ProfileNavbar onSearch={() => {}} />
+          )
+        )}
+        <main className="flex-grow">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </div>
     </Provider>
   );
 }
