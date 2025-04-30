@@ -10,12 +10,35 @@ import { useRouter } from "next/navigation";
 import ProfileNavbar from "../src/components/ProfileNavbar";
 import Image from "next/image";
 
-declare global {
-  interface Window {
-    Razorpay?: any;
-  }
+// ✅ Razorpay types
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
 }
 
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpayResponse) => void;
+  theme: {
+    color: string;
+  };
+}
+
+interface RazorpayInstance {
+  open(): void;
+}
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
+  }
+}
 
 const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
 
@@ -69,7 +92,6 @@ const CheckoutPage = () => {
     const discountedTotal = Math.max(0, totalAmount - 4);
     setTotal(discountedTotal);
   }, [cartItems]);
-  
 
   useEffect(() => {
     const scriptId = "razorpay-script";
@@ -88,7 +110,7 @@ const CheckoutPage = () => {
 
       script.onerror = () => {
         console.error("Initial load failed. Retrying...");
-        retryLoadScript(); 
+        retryLoadScript();
       };
 
       document.body.appendChild(script);
@@ -119,14 +141,14 @@ const CheckoutPage = () => {
 
       const orderData = await orderRes.json();
 
-      const options = {
+      const options: RazorpayOptions = {
         key: RAZORPAY_KEY,
         amount: orderData.amount,
         currency: "INR",
         name: "Your Brand",
         description: "Order Payment",
         order_id: orderData.id,
-        handler: async (response: any) => {
+        handler: async (response: RazorpayResponse) => {
           const verifyRes = await fetch("/api/auth/verify-payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -150,22 +172,19 @@ const CheckoutPage = () => {
                 })),
               }),
             });
-          
+
             dispatch(saveOrderToRedux({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               total,
               cartItems,
             }));
-          
-            // 🆕 Empty cart after placing order
+
             dispatch(replaceCart([]));
-            
-            // 🆕 Also remove from localStorage (optional but good)
             const user = JSON.parse(localStorage.getItem("user") || "null");
             if (user?.email) {
               localStorage.removeItem(`cart_${user.email}`);
-            }         
+            }
             router.push("/order-success");
           } else {
             alert("Payment verification failed. Please contact support.");
@@ -176,7 +195,7 @@ const CheckoutPage = () => {
         },
       };
 
-      const razorpay = new window.Razorpay(options);
+      const razorpay = new window.Razorpay!(options);
       razorpay.open();
     } catch (error) {
       console.error("Payment error:", error);
@@ -188,7 +207,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <ProfileNavbar/>
+      <ProfileNavbar />
       <div className="p-6 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
 

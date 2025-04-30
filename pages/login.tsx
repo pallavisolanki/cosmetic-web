@@ -1,4 +1,4 @@
-//pages\login.tsx
+// pages/login.tsx
 "use client";
 
 import { FormEvent, useState } from 'react';
@@ -14,7 +14,7 @@ import { replaceCart } from "../src/store/cartSlice";
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [fullName, setFullName] = useState(''); // Add state for fullName
+  const [fullName, setFullName] = useState('');
   const dispatch = useDispatch();
 
   useAuthRedirect(false);
@@ -35,7 +35,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, email, password }), // Include fullName
+        body: JSON.stringify({ fullName, email, password }),
       });
 
       const data = await res.json();
@@ -43,14 +43,12 @@ export default function LoginPage() {
       if (res.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        // Retrieve the cart from the backend (or from localStorage if needed)
         const savedCart = localStorage.getItem(`cart_${data.user.email}`);
         const parsedCart = savedCart ? JSON.parse(savedCart) : [];
 
-        dispatch(replaceCart(parsedCart)); // Update Redux store with the cart
+        dispatch(replaceCart(parsedCart));
 
-        // Optionally, store the cart in localStorage for the profile
-        localStorage.setItem("profileCart", JSON.stringify(parsedCart)); 
+        localStorage.setItem("profileCart", JSON.stringify(parsedCart));
 
         window.dispatchEvent(new Event("cartUpdated"));
 
@@ -78,8 +76,8 @@ export default function LoginPage() {
                 name="fullName"
                 type="text"
                 placeholder="John Doe"
-                value={fullName} // Bind value to the state
-                onChange={(e) => setFullName(e.target.value)} // Handle change for fullName
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 required
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -123,7 +121,7 @@ export default function LoginPage() {
             </button>
           </form>
           <p className="mt-4 text-center text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/signup" className="text-blue-500 hover:underline">Sign Up</Link>
           </p>
         </div>

@@ -1,5 +1,4 @@
 //pages\order-history.tsx
-
 "use client";
 
 import { useEffect, useMemo } from "react";
@@ -15,6 +14,7 @@ import { Trash2, Trash } from "lucide-react";
 import Link from "next/link";
 import "../src/styles/globals.css";
 import { ShoppingBag } from "lucide-react";
+import Image from "next/image"; // ✅ Imported Next.js Image
 
 const OrderHistoryPage = () => {
   const dispatch = useDispatch();
@@ -120,11 +120,13 @@ const OrderHistoryPage = () => {
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {order.cartItems.map((item) => (
                       <li key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-                        <div className="w-16 h-16 rounded-md overflow-hidden bg-white border">
-                          <img
+                        <div className="w-16 h-16 rounded-md overflow-hidden bg-white border relative">
+                          <Image
                             src={item.image || "/default-product.png"}
                             alt={item.name}
-                            className="object-cover w-full h-full"
+                            fill
+                            className="object-cover rounded-md"
+                            sizes="64px"
                           />
                         </div>
                         <div>

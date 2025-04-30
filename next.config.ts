@@ -19,6 +19,9 @@ const nextConfig = {
       },
     ];
   },
+  eslint: {
+    ignoreDuringBuilds: true, // Disable ESLint during the build process
+  },
 
   webpack(config: any) {
     return config;

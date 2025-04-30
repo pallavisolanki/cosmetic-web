@@ -8,6 +8,7 @@ import ProfileNavbar from "../src/components/ProfileNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../src/store/store";
 import { replaceCart } from "../src/store/cartSlice";
+import Image from "next/image";
 
 interface CartItem {
   id: string;
@@ -33,10 +34,9 @@ const CartPage = () => {
     const cartKey = getCartKey();
     if (cartKey) {
       localStorage.setItem(cartKey, JSON.stringify(updatedCart));
-      window.dispatchEvent(new Event("cartUpdated")); 
+      window.dispatchEvent(new Event("cartUpdated"));
     }
   };
-  
 
   useEffect(() => {
     const loadCartFromStorage = () => {
@@ -87,21 +87,23 @@ const CartPage = () => {
     <>
       <ProfileNavbar />
       <div className="min-h-screen bg-gray-100 p-6">
-        <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2"> 
+        <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
           Shopping Bag
         </h1>
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center py-24 text-gray-600 bg-white rounded-2xl shadow-md">
             <div className="text-6xl mb-4">🛒</div>
             <h2 className="text-2xl font-semibold mb-2">Your cart is empty</h2>
-            <p className="mb-6 text-gray-500">Looks like you haven't added anything to your bag yet.</p>
+            <p className="mb-6 text-gray-500">
+              Looks like you haven&rsquo;t added anything to your bag yet.
+            </p>
             <Link
               href="/"
               className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-medium transition-all"
             >
               Continue Shopping
             </Link>
-          </div>        
+          </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-6">
             {/* LEFT: Product List */}
@@ -112,9 +114,11 @@ const CartPage = () => {
                   className="bg-white rounded-2xl shadow-md p-4 flex justify-between items-center"
                 >
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
+                      width={96}
+                      height={112}
                       className="w-24 h-28 object-contain rounded-xl"
                     />
                     <div>
