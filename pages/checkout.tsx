@@ -1,4 +1,4 @@
-// pages\checkout.tsx
+// pages/checkout.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -176,74 +176,72 @@ const CheckoutPage = () => {
   };
 
   return (
-    <>
-      <div className="p-6 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">Checkout</h1>
 
-        {cartItems.length === 0 ? (
-          <p className="text-center text-gray-600">Your cart is empty.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Cart Items */}
-            <div className="md:col-span-2 space-y-6">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between gap-4 border-b pb-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={item.image || "/placeholder.png"}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className="rounded-xl"
-                    />
-                    <div>
-                      <h2 className="text-lg font-semibold">{item.name}</h2>
-                      <p className="text-sm text-gray-600">
-                        ₹{item.price} x {item.quantity}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="font-semibold">
-                    ₹{(item.price * item.quantity).toFixed(2)}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Order Summary */}
-            <div className="border rounded-xl p-4 shadow-md bg-white">
-              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-
-              <div className="flex justify-between mb-2">
-                <span>Subtotal:</span>
-                <span>₹{total.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span>Shipping:</span>
-                <span className="text-green-600">Free</span>
-              </div>
-              <div className="flex justify-between border-t pt-2 font-bold text-lg">
-                <span>Total:</span>
-                <span>₹{total.toFixed(2)}</span>
-              </div>
-
-              <button
-                onClick={handlePayment}
-                className={`mt-6 w-full bg-black text-white py-2 rounded-xl hover:bg-pink-600 transition duration-200 ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                disabled={loading || !isRazorpayLoaded}
+      {cartItems.length === 0 ? (
+        <p className="text-center text-gray-600">Your cart is empty.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Cart Items */}
+          <div className="md:col-span-2 space-y-6">
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between gap-4 border-b pb-4"
               >
-                {loading ? "Processing Payment..." : "Proceed to Payment"}
-              </button>
-            </div>
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={item.image || "/placeholder.png"}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                    className="rounded-xl"
+                  />
+                  <div>
+                    <h2 className="text-lg font-semibold">{item.name}</h2>
+                    <p className="text-sm text-gray-600">
+                      ₹{item.price} x {item.quantity}
+                    </p>
+                  </div>
+                </div>
+                <span className="font-semibold">
+                  ₹{(item.price * item.quantity).toFixed(2)}
+                </span>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-    </>
+
+          {/* Order Summary */}
+          <div className="border rounded-xl p-4 shadow-md bg-white">
+            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+
+            <div className="flex justify-between mb-2">
+              <span>Subtotal:</span>
+              <span>₹{total.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between mb-2">
+              <span>Shipping:</span>
+              <span className="text-green-600">Free</span>
+            </div>
+            <div className="flex justify-between border-t pt-2 font-bold text-lg">
+              <span>Total:</span>
+              <span>₹{total.toFixed(2)}</span>
+            </div>
+
+            <button
+              onClick={handlePayment}
+              className={`mt-6 w-full bg-black text-white py-2 rounded-xl hover:bg-pink-600 transition duration-200 ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading || !isRazorpayLoaded}
+            >
+              {loading ? "Processing Payment..." : "Proceed to Payment"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

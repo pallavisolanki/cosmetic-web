@@ -1,6 +1,7 @@
 // pages/product/[name].tsx
 import { useRouter } from "next/router";
 import { products } from "../../src/data/products";
+import { saveOrderToRedux } from "@/store/orderSlice";
 import { Product } from "../../src/types";
 import Image from "next/image";
 import { useState } from "react";
@@ -14,7 +15,9 @@ import {
 import { slugify } from "../../utils/slugify";
 import { useDispatch } from "react-redux"; // Import useDispatch hook
 import { addToCart } from "../../utils/addToCart"; // Import addToCart function
+import { handlePayment } from "../../utils/paymentHandler"; // Import handlePayment function
 
+const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
 
 const ProductPage = () => {
   const router = useRouter();
@@ -42,9 +45,25 @@ const ProductPage = () => {
   
   const handleAddToCart = async () => {
     if (product) {
-      await addToCart(product, dispatch, router,quantity); // Call addToCart with necessary arguments
+      await addToCart(product, dispatch, router, quantity); 
     }
   };
+
+  const handleBuyNow = async () => {
+    const totalAmount = product.price * quantity;
+    console.log("Buy Now pressed", { totalAmount, quantity, product });
+  
+    await handlePayment({
+      total: totalAmount,
+      cartItems: [], // Cart not used in Buy Now
+      product,
+      quantity,
+      dispatch,
+      router,
+      isBuyNow: true,
+    });
+  };
+  
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -111,7 +130,9 @@ const ProductPage = () => {
             >
               Add to Cart
             </button>
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-orange-400 transition">
+            <button 
+              onClick={handleBuyNow}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-orange-400 transition">
               Buy Now
             </button>
           </div>
@@ -168,4 +189,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-
