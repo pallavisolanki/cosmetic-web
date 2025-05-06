@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Footer from "../src/components/layout/footer";
 import "../src/styles/globals.css";
 import HeroSection from "../src/components/HeroSection";
 import NewsletterSection from "../src/components/NewsletterSection";
@@ -71,7 +70,6 @@ export default function ProfilePage() {
       </section>
 
       <NewsletterSection />
-      <Footer />
     </>
   );
 }
