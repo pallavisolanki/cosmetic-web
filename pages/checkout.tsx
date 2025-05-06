@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { replaceCart } from "@/store/cartSlice";
-import { saveOrderToRedux } from "@/store/orderSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { handlePayment } from "../utils/paymentHandler"; 
 
-const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -17,7 +16,7 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const [total, setTotal] = useState(0);
   const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const retryLoadScript = () => {
     const scriptId = "razorpay-script";
@@ -87,93 +86,26 @@ const CheckoutPage = () => {
       if (window.Razorpay) {
         setIsRazorpayLoaded(true);
       } else {
-        setIsRazorpayLoaded(true); // If already loaded, skip the loading.
+        setIsRazorpayLoaded(true); 
       }
     }
   }, []);
 
-  const handlePayment = async () => {
+  const proceedToPayment = () => {
     if (!isRazorpayLoaded) {
       retryLoadScript();
       return;
     }
-
-    setLoading(true);
-
-    try {
-      const orderRes = await fetch("/api/auth/razorpay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: total }),
-      });
-
-      const orderData = await orderRes.json();
-
-      const options: RazorpayOptions = {
-        key: RAZORPAY_KEY,
-        amount: orderData.amount,
-        currency: "INR",
-        name: "Your Brand",
-        description: "Order Payment",
-        order_id: orderData.id,
-        handler: async (response: RazorpayResponse) => {
-          const verifyRes = await fetch("/api/auth/verify-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response),
-          });
-
-          const verifyData = await verifyRes.json();
-
-          if (verifyData.verified) {
-            await fetch("/api/auth/orders", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpayOrderId: response.razorpay_order_id,
-                razorpayPaymentId: response.razorpay_payment_id,
-                totalAmount: total,
-                products: cartItems.map(item => ({
-                  productId: item.id,
-                  quantity: item.quantity,
-                  price: item.price,
-                })),
-              }),
-            });
-
-            dispatch(saveOrderToRedux({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              total,
-              cartItems,
-            }));
-
-            dispatch(replaceCart([])); // Clear the cart in Redux
-
-            // Clear cart from localStorage as well
-            const user = JSON.parse(localStorage.getItem("user") || "null");
-            if (user?.email) {
-              localStorage.removeItem(`cart_${user.email}`);
-            }
-            router.push("/order-success");
-          } else {
-            alert("Payment verification failed. Please contact support.");
-          }
-        },
-        theme: {
-          color: "#3399cc",
-        },
-      };
-
-      const razorpay = new window.Razorpay!(options);
-      razorpay.open();
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Payment failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  
+    handlePayment({
+      total,
+      cartItems,
+      dispatch,
+      router,
+      isBuyNow: false, 
+    });
   };
+  
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -230,7 +162,7 @@ const CheckoutPage = () => {
             </div>
 
             <button
-              onClick={handlePayment}
+              onClick={proceedToPayment}
               className={`mt-6 w-full bg-black text-white py-2 rounded-xl hover:bg-pink-600 transition duration-200 ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}

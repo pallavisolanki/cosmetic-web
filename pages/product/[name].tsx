@@ -1,7 +1,6 @@
 // pages/product/[name].tsx
 import { useRouter } from "next/router";
 import { products } from "../../src/data/products";
-import { saveOrderToRedux } from "@/store/orderSlice";
 import { Product } from "../../src/types";
 import Image from "next/image";
 import { useState } from "react";
@@ -13,11 +12,10 @@ import {
   FaLock,
 } from "react-icons/fa";
 import { slugify } from "../../utils/slugify";
-import { useDispatch } from "react-redux"; // Import useDispatch hook
-import { addToCart } from "../../utils/addToCart"; // Import addToCart function
-import { handlePayment } from "../../utils/paymentHandler"; // Import handlePayment function
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../utils/addToCart"; 
+import { handlePayment } from "../../utils/paymentHandler"; 
 
-const RAZORPAY_KEY = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_4qcMk3FdOe1seg";
 
 const ProductPage = () => {
   const router = useRouter();
@@ -125,7 +123,7 @@ const ProductPage = () => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
             <button
-              onClick={handleAddToCart} // Trigger the addToCart function
+              onClick={handleAddToCart} 
               className="bg-pink-500 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
             >
               Add to Cart

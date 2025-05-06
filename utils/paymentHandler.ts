@@ -1,10 +1,9 @@
 // utils/paymentHandler.ts
 
 import { Dispatch } from "redux";
-import { saveOrderToRedux } from "../src/store/orderSlice";  // Update the path to match your actual store structure
-import { replaceCart } from "../src/store/cartSlice";  // Update path if necessary
+import { saveOrderToRedux } from "../src/store/orderSlice";  
+import { replaceCart } from "../src/store/cartSlice"; 
 
-// ✅ Razorpay script loader
 const loadRazorpayScript = () => {
   return new Promise<void>((resolve, reject) => {
     if (document.getElementById("razorpay-script")) {
