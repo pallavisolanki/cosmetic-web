@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌿 Light Mode  */
+:root {
+  --background: #ffffff;
+  --foreground: #2d2d2d;
+  --primary: #ec4899;
+  --secondary: #f43f5e;
+  --border-color: #e5e7eb;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ General Styling */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+input, button {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3 {
+  color: #333;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: #4a5568;
+  line-height: 1.625;
+}
+
+/* ✅ Hero Section */
+/* Background Image */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  background-image: url('/background.jpg'); /* Ensure the path is correct */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Hover Effect - Zoom and Darken Background */
+.hero-section:hover::before {
+  transform: scale(1.0); /* Zoom in effect */
+  opacity: 0.7; /* Slightly darken */
+}
+
+/* ✅ Content on Top of Background */
+.hero-section h1,
+.hero-section p,
+.hero-section button {
+  position: relative;
+  z-index: 1; /* Ensures they appear above the background */
+}
+
+
