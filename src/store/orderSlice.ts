@@ -1,6 +1,6 @@
 // src/store/orderSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartItem } from "./cartSlice"; // Import CartItem type
+import { CartItem } from "../types"; // Import CartItem type
 
 interface Order {
   razorpay_order_id: string;
