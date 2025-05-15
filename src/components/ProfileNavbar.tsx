@@ -133,7 +133,7 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
           <img
             src="/images/logo.png"
             alt="Cosmetics Store Logo"
-            className="h-18 w-23 cursor-pointer"
+            className="h-[72px] w-[92px] cursor-pointer"
           />
         </Link>
 

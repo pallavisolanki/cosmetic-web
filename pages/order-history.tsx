@@ -62,12 +62,15 @@ const OrderHistoryPage = () => {
     <>
       <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-4xl font-extrabold text-gray-800 text-center w-full">Order History</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+            <h1 className="text-4xl font-extrabold text-gray-800 text-center sm:text-left w-full">
+              Order History
+            </h1>
+
             {uniqueOrders.length > 0 && (
               <button
                 onClick={handleClearAll}
-                className="flex items-center gap-2 text-red-500 hover:text-white hover:bg-red-500 font-medium text-sm border border-red-500 px-4 py-2 rounded-full transition-all duration-300 absolute right-8"
+                className="self-center sm:self-auto flex items-center gap-2 text-red-500 hover:text-white hover:bg-red-500 font-medium text-sm border border-red-500 px-6 py-1 rounded-full transition-all duration-300 whitespace-nowrap"
               >
                 <Trash size={18} />
                 Clear All
